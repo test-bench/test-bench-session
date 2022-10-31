@@ -25,6 +25,12 @@ module TestBench
       raise Failure, message
     end
 
+    def asserted?(compare_sequence=nil)
+      compare_sequence ||= 0
+
+      compare_sequence != assertion_sequence
+    end
+
     def record_assertion
       self.assertion_sequence += 1
     end
