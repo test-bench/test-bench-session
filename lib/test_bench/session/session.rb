@@ -12,12 +12,21 @@ module TestBench
     end
     attr_writer :failure_sequence
 
+    def assertion_sequence
+      @assertion_sequence ||= 0
+    end
+    attr_writer :assertion_sequence
+
     def fail(message, path, line_number)
       record_failure
 
       telemetry.record(Events::Failed.new(message, path, line_number))
 
       raise Failure, message
+    end
+
+    def record_assertion
+      self.assertion_sequence += 1
     end
 
     def failed?(compare_sequence=nil)
