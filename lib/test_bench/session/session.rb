@@ -17,6 +17,16 @@ module TestBench
     end
     attr_writer :assertion_sequence
 
+    def assert(result)
+      failure_message = Session.assertion_failure_message
+
+      record_assertion
+
+      if result == false
+        fail(failure_message)
+      end
+    end
+
     def fail(message=nil)
       message ||= self.class.default_failure_message
 
@@ -53,6 +63,10 @@ module TestBench
 
     def self.default_failure_message
       'Failed'
+    end
+
+    def self.assertion_failure_message
+      "Assertion failed"
     end
   end
 end
