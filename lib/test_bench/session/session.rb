@@ -12,6 +12,21 @@ module TestBench
     end
     attr_writer :failure_sequence
 
+    def assertion_sequence
+      @assertion_sequence ||= 0
+    end
+    attr_writer :assertion_sequence
+
+    def assert(result)
+      failure_message = Session.assertion_failure_message
+
+      record_assertion
+
+      if result == false
+        fail(failure_message)
+      end
+    end
+
     def fail(message=nil)
       message ||= self.class.default_failure_message
 
@@ -20,6 +35,16 @@ module TestBench
       record_event(Events::Failed.new(message))
 
       raise Failure, message
+    end
+
+    def asserted?(compare_sequence=nil)
+      compare_sequence ||= 0
+
+      compare_sequence != assertion_sequence
+    end
+
+    def record_assertion
+      self.assertion_sequence += 1
     end
 
     def failed?(compare_sequence=nil)
@@ -38,6 +63,10 @@ module TestBench
 
     def self.default_failure_message
       'Failed'
+    end
+
+    def self.assertion_failure_message
+      "Assertion failed"
     end
   end
 end
