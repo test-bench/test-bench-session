@@ -1,9 +1,24 @@
 module TestBench
   class Session
+    Failure = Class.new(RuntimeError)
+
+    def telemetry
+      @telemetry ||= TestBench::Telemetry::Substitute.build
+    end
+    attr_writer :telemetry
+
     def failure_sequence
       @failure_sequence ||= 0
     end
     attr_writer :failure_sequence
+
+    def fail(message, path, line_number)
+      record_failure
+
+      telemetry.record(Events::Failed.new(message, path, line_number))
+
+      raise Failure, message
+    end
 
     def failed?(compare_sequence=nil)
       compare_sequence ||= 0
