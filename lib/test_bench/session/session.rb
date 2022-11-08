@@ -66,6 +66,10 @@ module TestBench
       self.failure_sequence += 1
     end
 
+    def skipped?
+      skip_sequence != 0
+    end
+
     def record_skip
       self.skip_sequence += 1
     end
