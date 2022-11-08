@@ -7,6 +7,7 @@ context "Session" do
         session = Session.new
 
         control_message = Session.no_assertion_message
+        detail "Message: #{control_message}"
 
         control_result = Controls::Result.failure
 
