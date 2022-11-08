@@ -23,6 +23,38 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def context!(...)
+      if context(...) == false
+        message = Session.abort_message
+        raise Abort, message
+      end
+    end
+
+    def context(title=nil, &block)
+      if block.nil?
+        record_skip
+        record_event(Events::ContextSkipped.new(title))
+        return
+      end
+
+      original_failure_sequence = failure_sequence
+
+      record_event(Events::ContextStarted.new(title))
+
+      begin
+        block.()
+
+      rescue Failure
+
+      ensure
+        result = !failed?(original_failure_sequence)
+
+        record_event(Events::ContextFinished.new(title, result))
+      end
+
+      result
+    end
+
     def test!(...)
       if test(...) == false
         message = Session.abort_message
