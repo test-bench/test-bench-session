@@ -17,6 +17,11 @@ module TestBench
     end
     attr_writer :assertion_sequence
 
+    def skip_sequence
+      @skip_sequence ||= 0
+    end
+    attr_writer :skip_sequence
+
     def assert(result)
       failure_message = Session.assertion_failure_message
 
@@ -59,6 +64,14 @@ module TestBench
 
     def record_failure
       self.failure_sequence += 1
+    end
+
+    def skipped?
+      skip_sequence != 0
+    end
+
+    def record_skip
+      self.skip_sequence += 1
     end
 
     def self.default_failure_message
