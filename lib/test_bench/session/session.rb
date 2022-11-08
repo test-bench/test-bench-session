@@ -22,6 +22,33 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def context(title=nil, &block)
+      title = title&.to_str
+
+      if block.nil?
+        record_skip
+        record_event(Events::ContextSkipped.new(title))
+        return
+      end
+
+      original_failure_sequence = failure_sequence
+
+      record_event(Events::ContextStarted.new(title))
+
+      begin
+        block.()
+
+      rescue Failure
+
+      ensure
+        result = !failed?(original_failure_sequence)
+
+        record_event(Events::ContextFinished.new(title, result))
+      end
+
+      result
+    end
+
     def assert(result)
       failure_message = Session.assertion_failure_message
 
