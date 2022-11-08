@@ -1,6 +1,7 @@
 module TestBench
   class Session
     Failure = Class.new(RuntimeError)
+    Abort = Class.new(Failure)
 
     def telemetry
       @telemetry ||= TestBench::Telemetry::Substitute.build
@@ -21,6 +22,38 @@ module TestBench
       @skip_sequence ||= 0
     end
     attr_writer :skip_sequence
+
+    def context!(...)
+      if context(...) == false
+        message = Session.abort_message
+        raise Abort, message
+      end
+    end
+
+    def context(title=nil, &block)
+      if block.nil?
+        record_skip
+        record_event(Events::ContextSkipped.new(title))
+        return
+      end
+
+      original_failure_sequence = failure_sequence
+
+      record_event(Events::ContextStarted.new(title))
+
+      begin
+        block.()
+
+      rescue Failure
+
+      ensure
+        result = !failed?(original_failure_sequence)
+
+        record_event(Events::ContextFinished.new(title, result))
+      end
+
+      result
+    end
 
     def assert(result)
       failure_message = Session.assertion_failure_message
@@ -80,6 +113,10 @@ module TestBench
 
     def self.assertion_failure_message
       "Assertion failed"
+    end
+
+    def self.abort_message
+      "Abort"
     end
   end
 end
