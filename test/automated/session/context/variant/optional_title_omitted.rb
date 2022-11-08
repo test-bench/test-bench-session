@@ -1,12 +1,15 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Session" do
-  context "Context" do
+  context "Context Variant" do
     context "Optional Title Omitted" do
       session = Session.new
 
-      session.context do
-        #
+      begin
+        session.context! do
+          #
+        end
+      rescue Session::Abort
       end
 
       context "Context Started Event" do
