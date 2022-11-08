@@ -55,6 +55,13 @@ module TestBench
       result
     end
 
+    def test!(...)
+      if test(...) == false
+        message = Session.abort_message
+        raise Abort, message
+      end
+    end
+
     def test(title=nil, &block)
       if block.nil?
         record_skip
