@@ -23,6 +23,30 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def context(title=nil, &block)
+      if block.nil?
+        telemetry.record(Events::ContextSkipped.new(title))
+        return
+      end
+
+      original_failure_sequence = failure_sequence
+
+      telemetry.record(Events::ContextStarted.new(title))
+
+      begin
+        block.()
+
+      rescue Failure
+
+      ensure
+        result = !failed?(original_failure_sequence)
+
+        telemetry.record(Events::ContextFinished.new(title, result))
+      end
+
+      result
+    end
+
     def test!(...)
       if test(...) == false
         message = Session.abort_message
