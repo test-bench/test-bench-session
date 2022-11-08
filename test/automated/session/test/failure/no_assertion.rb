@@ -10,6 +10,7 @@ context "Session" do
         control_line_number = Controls::Failure::LineNumber.example
 
         control_message = Session.no_assertion_message
+        detail "Message: #{control_message}"
 
         control_result = Controls::Result.failure
 
