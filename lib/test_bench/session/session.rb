@@ -23,6 +23,10 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def detail(text)
+      telemetry.record(Events::Detailed.new(text))
+    end
+
     def comment(comment)
       telemetry.record(Events::Commented.new(comment))
     end
