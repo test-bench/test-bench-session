@@ -12,6 +12,7 @@ module TestBench
       TestSkipped = TestBench::Telemetry::Event.define(:title)
 
       Commented = TestBench::Telemetry::Event.define(:text, :quote, :heading)
+      Detailed = TestBench::Telemetry::Event.define(:text, :quote, :heading)
     end
   end
 end
