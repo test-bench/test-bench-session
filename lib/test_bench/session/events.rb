@@ -16,6 +16,9 @@ module TestBench
 
       FixtureStarted = TestBench::Telemetry::Event.define(:name)
       FixtureFinished = TestBench::Telemetry::Event.define(:name, :result)
+
+      FileStarted = TestBench::Telemetry::Event.define(:path)
+      FileFinished = TestBench::Telemetry::Event.define(:path, :result)
     end
   end
 end
