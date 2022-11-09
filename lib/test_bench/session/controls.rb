@@ -8,6 +8,7 @@ require 'test_bench/session/controls/exception'
 
 require 'test_bench/session/controls/failure'
 require 'test_bench/session/controls/title'
+require 'test_bench/session/controls/comment'
 
 require 'test_bench/session/controls/events/failed'
 require 'test_bench/session/controls/events/test_started'
@@ -16,3 +17,4 @@ require 'test_bench/session/controls/events/test_skipped'
 require 'test_bench/session/controls/events/context_started'
 require 'test_bench/session/controls/events/context_finished'
 require 'test_bench/session/controls/events/context_skipped'
+require 'test_bench/session/controls/events/commented'

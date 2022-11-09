@@ -10,6 +10,8 @@ module TestBench
       ContextStarted = TestBench::Telemetry::Event.define(:title)
       ContextFinished = TestBench::Telemetry::Event.define(:title, :result)
       ContextSkipped = TestBench::Telemetry::Event.define(:title)
+
+      Commented = TestBench::Telemetry::Event.define(:text)
     end
   end
 end

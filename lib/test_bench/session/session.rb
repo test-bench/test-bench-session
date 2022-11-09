@@ -23,6 +23,10 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def comment(comment)
+      telemetry.record(Events::Commented.new(comment))
+    end
+
     def context!(...)
       if context(...) == false
         message = Session.abort_message
