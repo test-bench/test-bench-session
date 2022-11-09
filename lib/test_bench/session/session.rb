@@ -23,6 +23,23 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def fixture(name, &block)
+      original_failure_sequence = failure_sequence
+
+      telemetry.record(Events::FixtureStarted.new(name))
+
+      begin
+        block.()
+      rescue Failure
+      end
+
+      result = !failed?(original_failure_sequence)
+
+      telemetry.record(Events::FixtureFinished.new(name, result))
+
+      result
+    end
+
     def detail(text)
       telemetry.record(Events::Detailed.new(text))
     end
