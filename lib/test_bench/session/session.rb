@@ -23,6 +23,12 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def comment(text, quote, heading=nil)
+      text = text&.to_str
+
+      record_event(Events::Commented.new(text, quote, heading))
+    end
+
     def context!(...)
       if context(...) == false
         message = Session.abort_message
