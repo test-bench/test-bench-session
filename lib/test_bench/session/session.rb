@@ -23,6 +23,25 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def file(path)
+      original_failure_sequence = failure_sequence
+
+      telemetry.record(Events::FileStarted.new(path))
+
+      source = File.read(path)
+
+      begin
+        TOPLEVEL_BINDING.eval(source, path)
+      rescue Failure
+      end
+
+      result = !failed?(original_failure_sequence)
+
+      telemetry.record(Events::FileFinished.new(path, result))
+
+      result
+    end
+
     def fixture(name, &block)
       original_failure_sequence = failure_sequence
 
