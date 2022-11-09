@@ -23,6 +23,10 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def detail(text, quote, heading=nil)
+      record_event(Events::Detailed.new(text, quote, heading))
+    end
+
     def comment(text, quote, heading=nil)
       record_event(Events::Commented.new(text, quote, heading))
     end
