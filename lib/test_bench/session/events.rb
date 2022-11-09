@@ -10,6 +10,8 @@ module TestBench
       TestStarted = TestBench::Telemetry::Event.define(:title)
       TestFinished = TestBench::Telemetry::Event.define(:title, :result)
       TestSkipped = TestBench::Telemetry::Event.define(:title)
+
+      Commented = TestBench::Telemetry::Event.define(:text, :quote, :heading)
     end
   end
 end
