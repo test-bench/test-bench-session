@@ -13,6 +13,9 @@ module TestBench
 
       Commented = TestBench::Telemetry::Event.define(:text, :quote, :heading)
       Detailed = TestBench::Telemetry::Event.define(:text, :quote, :heading)
+
+      FixtureStarted = TestBench::Telemetry::Event.define(:name)
+      FixtureFinished = TestBench::Telemetry::Event.define(:name, :result)
     end
   end
 end

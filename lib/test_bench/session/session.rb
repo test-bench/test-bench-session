@@ -23,6 +23,25 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def fixture(name, &block)
+      original_failure_sequence = failure_sequence
+
+      record_event(Events::FixtureStarted.new(name))
+
+      begin
+        block.()
+
+      rescue Failure
+
+      ensure
+        result = !failed?(original_failure_sequence)
+
+        record_event(Events::FixtureFinished.new(name, result))
+      end
+
+      result
+    end
+
     def detail(text, quote, heading=nil)
       record_event(Events::Detailed.new(text, quote, heading))
     end
