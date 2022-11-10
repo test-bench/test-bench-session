@@ -17,6 +17,17 @@ module TestBench
           segments.pop
         end
         alias :pop :pop_segment
+
+        def copy(receiver)
+          path = self.class.new
+
+          segments.each do |segment|
+            path << segment
+          end
+
+          receiver.path = path
+          path
+        end
       end
     end
   end
