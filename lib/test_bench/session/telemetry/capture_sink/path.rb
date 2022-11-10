@@ -8,6 +8,26 @@ module TestBench
           end
           attr_writer :segments
 
+          def match?(*segments, segment)
+            if not segment == self.segments.last
+              return false
+            end
+
+            segment_iterator = self.segments.to_enum
+
+            control_segments = [*segments, segment]
+
+            control_segments.all? do |control_segment|
+              begin
+                next_segment = segment_iterator.next
+              end until next_segment == control_segment
+              true
+
+            rescue StopIteration
+              false
+            end
+          end
+
           def push_segment(segment)
             segments << segment
           end
