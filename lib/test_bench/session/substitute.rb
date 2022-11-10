@@ -33,12 +33,19 @@ module TestBench
           event_class = Events.const_get(event_type, false)
 
           module_eval(<<~RUBY, __FILE__, __LINE__)
+          def any_#{event_type_method_cased}_event?(...)
+            any_event?(#{event_class}, ...)
+          end
+          alias :#{event_type_method_cased}_event? :any_#{event_type_method_cased}_event?
+
           def #{event_type_method_cased}_events(...)
             events(#{event_class}, ...)
           end
           RUBY
         end
 
+        def any_event?(...) = telemetry.any_event?(...)
+        alias :event? :any_event?
         def events(...) = telemetry.events(...)
       end
     end
