@@ -22,6 +22,14 @@ module TestBench
           instance
         end
 
+        def file(path)
+          record_event(Events::FileStarted.new(path))
+
+          record_event(Events::FileFinished.new(path, result))
+
+          result
+        end
+
         Events.each_type do |event_type|
           event_name = TestBench::Telemetry::Event::EventName.get(event_type)
 
