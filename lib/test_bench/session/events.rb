@@ -1,6 +1,10 @@
 module TestBench
   class Session
     module Events
+      def self.each_type(&block)
+        constants(false).each(&block)
+      end
+
       Failed = TestBench::Telemetry::Event.define(:message, :path, :line_number)
 
       TestStarted = TestBench::Telemetry::Event.define(:title)
