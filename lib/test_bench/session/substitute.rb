@@ -47,6 +47,36 @@ module TestBench
           RUBY
         end
 
+        alias :failure? :failed_event?
+        alias :one_failure? :one_failed_event?
+
+        alias :test? :test_finished_event?
+        alias :one_test? :one_test_finished_event?
+
+        alias :context? :context_finished_event?
+        alias :one_context? :one_context_finished_event?
+
+        alias :comment? :commented_event?
+        alias :one_comment? :one_commented_event?
+
+        alias :detail? :detailed_event?
+        alias :one_detail? :one_detailed_event?
+
+        alias :fixture? :fixture_finished_event?
+        alias :one_fixture? :one_fixture_finished_event?
+
+        alias :file? :file_finished_event?
+        alias :one_file? :one_file_finished_event?
+
+        alias :started? :started_event?
+        alias :one_started? :one_started_event?
+
+        alias :finished? :finished_event?
+        alias :one_finished? :one_finished_event?
+
+        alias :aborted? :aborted_event?
+        alias :one_aborted? :one_aborted_event?
+
         def one_event?(...) = sink.one_event?(...)
         def one_event(...) = sink.one_event(...)
         def any_event?(...) = sink.any_event?(...)
