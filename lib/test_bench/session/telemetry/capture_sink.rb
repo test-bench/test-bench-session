@@ -14,6 +14,13 @@ module TestBench
         end
         attr_writer :path
 
+        def self.configure(receiver, attr_name: nil)
+          attr_name ||= :capture_sink
+
+          instance = new
+          receiver.public_send(:"#{attr_name}=", instance)
+        end
+
         def call(event)
           case event
           when TestStarted, ContextStarted
