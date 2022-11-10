@@ -19,6 +19,8 @@ module TestBench
 
       FileStarted = TestBench::Telemetry::Event.define(:path)
       FileFinished = TestBench::Telemetry::Event.define(:path, :result)
+
+      Started = TestBench::Telemetry::Event.define(:process_count)
     end
   end
 end
