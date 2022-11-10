@@ -28,6 +28,10 @@ module TestBench
           event_class = Events.const_get(event_type, false)
 
           module_eval(<<~RUBY, __FILE__, __LINE__)
+          def one_#{event_name}_event(...)
+            one_event(#{event_class}, ...)
+          end
+
           def any_#{event_name}_event?(...)
             any_event?(#{event_class}, ...)
           end
@@ -39,6 +43,7 @@ module TestBench
           RUBY
         end
 
+        def one_event(...) = sink.one_event(...)
         def any_event?(...) = sink.any_event?(...)
         alias :event? :any_event?
         def events(...) = sink.events(...)
