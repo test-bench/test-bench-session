@@ -27,6 +27,12 @@ module TestBench
       record_event(Events::Started.new(process_count))
     end
 
+    def abort(abort_process_id)
+      record_failure
+
+      record_event(Events::Aborted.new(abort_process_id))
+    end
+
     def file(path)
       original_failure_sequence = failure_sequence
 
