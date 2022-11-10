@@ -54,7 +54,34 @@ module TestBench
           end
         end
 
-        Record = Struct.new(:event_data, :path)
+        def events(event_class, *path_segments, **attributes)
+          event_sink = event_sink(*path_segments)
+          event_sink.events(event_class, **attributes)
+        end
+
+        def event_sink(*path_segments)
+          event_sink = Telemetry::Substitute::Sink.new
+
+          records.each do |record|
+            if record.match?(path_segments)
+              event_data = record.event_data
+
+              event_sink.receive(event_data)
+            end
+          end
+
+          event_sink
+        end
+
+        Record = Struct.new(:event_data, :path) do
+          def match?(path_segments)
+            if path_segments.any?
+              path.match?(*path_segments)
+            else
+              true
+            end
+          end
+        end
       end
     end
   end
