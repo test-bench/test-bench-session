@@ -26,6 +26,20 @@ module TestBench
 
           result
         end
+
+        Events.each_type do |event_type|
+          event_type_method_cased = TestBench::Telemetry::Event::Type.method_cased(event_type)
+
+          event_class = Events.const_get(event_type, false)
+
+          module_eval(<<~RUBY, __FILE__, __LINE__)
+          def #{event_type_method_cased}_events(...)
+            events(#{event_class}, ...)
+          end
+          RUBY
+        end
+
+        def events(...) = telemetry.events(...)
       end
     end
   end
