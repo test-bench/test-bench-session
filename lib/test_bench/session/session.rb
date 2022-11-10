@@ -23,6 +23,10 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def start(process_count)
+      telemetry.record(Events::Started.new(process_count))
+    end
+
     def file(path)
       original_failure_sequence = failure_sequence
 
