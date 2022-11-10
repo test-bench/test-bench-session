@@ -22,6 +22,7 @@ module TestBench
 
       Started = TestBench::Telemetry::Event.define(:process_count)
       Aborted = TestBench::Telemetry::Event.define(:abort_process_id)
+      Finished = TestBench::Telemetry::Event.define(:result, :process_count)
     end
   end
 end
