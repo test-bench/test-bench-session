@@ -3,6 +3,16 @@ module TestBench
     module Telemetry
       class CaptureSink
         Record = Struct.new(:event, :path) do
+          def match?(*path_segments, &block)
+            if not path_segments?(*path_segments)
+              false
+            elsif not block?(&block)
+              false
+            else
+              true
+            end
+          end
+
           def path_segments_match?(*segments)
             if segments.empty?
               true
