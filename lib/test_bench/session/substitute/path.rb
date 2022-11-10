@@ -12,6 +12,11 @@ module TestBench
         end
         alias :push :push_segment
         alias :<< :push
+
+        def pop_segment(compare_segment=nil)
+          segments.pop
+        end
+        alias :pop :pop_segment
       end
     end
   end
