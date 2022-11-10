@@ -48,6 +48,15 @@ module TestBench
           receiver.path = path
           path
         end
+
+        def eql?(compare)
+          if compare.is_a?(self.class)
+            segments == compare.segments
+          else
+            false
+          end
+        end
+        alias :== :eql?
       end
     end
   end
