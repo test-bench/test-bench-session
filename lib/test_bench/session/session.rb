@@ -27,6 +27,12 @@ module TestBench
       telemetry.record(Events::Started.new(process_count))
     end
 
+    def abort(abort_process_id)
+      record_failure
+
+      telemetry.record(Events::Aborted.new(abort_process_id))
+    end
+
     def file(path)
       original_failure_sequence = failure_sequence
 
