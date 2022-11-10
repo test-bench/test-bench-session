@@ -11,6 +11,17 @@ module TestBench
             end
           end
           alias :path_segments? :path_segments_match?
+
+          def block_match?(&block)
+            if block.nil?
+              true
+            elsif block.(event.event_type, *event.values)
+              true
+            else
+              false
+            end
+          end
+          alias :block? :block_match?
         end
       end
     end
