@@ -3,6 +3,16 @@ module TestBench
     module Controls
       module CaptureSink
         module Path
+          def self.example(segments=nil)
+            segments ||= Segment.examples
+
+            segments = segments.dup
+
+            path = TestBench::Session::Telemetry::CaptureSink::Path.new
+            path.segments = segments
+            path
+          end
+
           module Segment
             def self.examples
               [example, Context.other_example, Test.example]
