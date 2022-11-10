@@ -38,6 +38,18 @@ module TestBench
 
           record
         end
+
+        def match_events(event_class, *path_segments)
+          compare_event_type = event_class.event_type
+
+          records = self.records.select do |record|
+            record.match?(*path_segments) do |event_type, *values|
+              event_type == compare_event_type
+            end
+          end
+
+          records.map(&:event)
+        end
       end
     end
   end
