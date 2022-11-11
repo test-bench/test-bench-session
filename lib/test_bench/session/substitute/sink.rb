@@ -43,6 +43,11 @@ module TestBench
           record
         end
 
+        def one_event(event_class, *path_segments, **attributes)
+          event_sink = event_sink(*path_segments)
+          event_sink.one_event(event_class, **attributes)
+        end
+
         def any_event?(event_class, *path_segments, **attributes)
           event_sink = event_sink(*path_segments)
           event_sink.any_event?(event_class, **attributes)
