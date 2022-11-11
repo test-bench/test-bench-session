@@ -23,6 +23,19 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def self.build(*sinks)
+      instance = new
+      TestBench::Telemetry.configure(instance, *sinks)
+      instance
+    end
+
+    def self.configure(receiver, *sinks, attr_name: nil)
+      attr_name ||= :test_session
+
+      instance = build(*sinks)
+      receiver.public_send(:"#{attr_name}=", instance)
+    end
+
     def start(process_count)
       record_event(Events::Started.new(process_count))
     end
