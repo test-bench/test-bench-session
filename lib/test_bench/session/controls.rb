@@ -32,3 +32,7 @@ require 'test_bench/session/controls/events/finished'
 require 'test_bench/session/controls/events'
 
 require 'test_bench/session/controls/handler'
+
+require 'test_bench/session/controls/substitute/path'
+
+require 'test_bench/session/controls/event'
