@@ -62,6 +62,12 @@ module TestBench
           end
         end
 
+        def any_event?(event_class, *path_segments, **attributes)
+          event_sink = event_sink(*path_segments)
+          event_sink.any_event?(event_class, **attributes)
+        end
+        alias :event? :any_event?
+
         def events(event_class, *path_segments, **attributes)
           event_sink = event_sink(*path_segments)
           event_sink.events(event_class, **attributes)
