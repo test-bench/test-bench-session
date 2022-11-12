@@ -30,3 +30,5 @@ require 'test_bench/session/controls/events/started'
 require 'test_bench/session/controls/events/aborted'
 require 'test_bench/session/controls/events/finished'
 require 'test_bench/session/controls/events'
+
+require 'test_bench/session/controls/handler'
