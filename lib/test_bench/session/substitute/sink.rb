@@ -52,6 +52,16 @@ module TestBench
           record
         end
 
+        def received?(event_data=nil)
+          if not event_data.nil?
+            records.any? do |record|
+              record.event_data == event_data
+            end
+          else
+            records.any?
+          end
+        end
+
         Record = Struct.new(:event_data, :path)
       end
     end
