@@ -9,3 +9,5 @@ require 'test_bench/session/substitute/sink'
 require 'test_bench/session/substitute'
 
 require 'test_bench/session/projection'
+
+require 'test_bench/session/output/writer/buffer/interactive/viewport'
