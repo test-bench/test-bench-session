@@ -17,6 +17,20 @@ module TestBench
                 build(0, 0, 0, 0)
               end
 
+              def self.get
+                width, height, row, column = nil
+
+                STDIN.raw do |stdin|
+                  height, width = stdin.winsize
+
+                  row, column = stdin.cursor
+                end
+
+                scroll_rows = row
+
+                build(width, height, row, column, scroll_rows)
+              end
+
               def write(text)
                 bytes_written = 0
 
