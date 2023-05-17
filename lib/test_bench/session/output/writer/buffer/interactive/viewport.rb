@@ -17,6 +17,14 @@ module TestBench
                 build(0, 0, 0, 0)
               end
 
+              def capacity?
+                if scroll_rows_remaining > 0
+                  true
+                else
+                  not bottom_row?
+                end
+              end
+
               def capacity
                 capacity = 0
 
@@ -34,6 +42,10 @@ module TestBench
 
               def scroll_rows_remaining
                 scroll_rows - rows_scrolled
+              end
+
+              def bottom_row?
+                row == height - 1
               end
             end
           end
