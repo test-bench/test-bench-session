@@ -19,6 +19,41 @@ module TestBench
             end
             attr_writer :device
 
+            attr_accessor :buffering
+            def buffering? = !!buffering
+
+            def receive(text)
+              if not cursor_saved?
+                save_cursor
+              end
+
+              bytes_written = viewport.write(text)
+
+              write_text = text.byteslice(0, bytes_written)
+              device.write(write_text)
+
+              if not viewport.capacity?
+                if not buffering?
+                  buffering_message = "Output is buffering"
+
+                  device.write("\e[0G\e[2m#{buffering_message}\e[22m")
+
+                  self.buffering = true
+                end
+              end
+
+              update_stderr_buffer
+
+              bytes_written
+            end
+
+            def flush(*_devices)
+              if cursor_saved?
+                update_stderr_buffer
+                restore_cursor
+              end
+            end
+
             def save_cursor
               self.viewport = Viewport.get
 
@@ -58,6 +93,29 @@ module TestBench
 
               self.viewport = nil
             end
+
+            def update_stderr_buffer
+              loop do
+                stderr_text = stderr_pipe.read_nonblock(4096, exception: false)
+
+                if stderr_text == :wait_readable
+                  break
+                end
+
+                viewport.write(stderr_text)
+
+                if not buffering?
+                  raw_stderr.write(stderr_text)
+                end
+
+                self.stderr_buffer << stderr_text
+              end
+            end
+
+            def viewport?
+              !viewport.nil?
+            end
+            alias :cursor_saved? :viewport?
           end
         end
       end
