@@ -17,6 +17,22 @@ module TestBench
                 build(0, 0, 0, 0)
               end
 
+              def write_newline
+                if bottom_row?
+                  if scroll_rows_remaining.zero?
+                    return 0
+                  end
+
+                  self.rows_scrolled += 1
+                else
+                  self.row += 1
+                end
+
+                self.column = 0
+
+                1
+              end
+
               def capacity?
                 if scroll_rows_remaining > 0
                   true
