@@ -22,6 +22,21 @@ module TestBench
             attr_accessor :buffering
             def buffering? = !!buffering
 
+            def self.build(device=nil)
+              device ||= Defaults.device
+
+              instance = new
+              instance.device = device
+              instance
+            end
+
+            def self.configure(receiver, device: nil, attr_name: nil)
+              attr_name ||= :buffer
+
+              instance = build(device)
+              receiver.public_send(:"#{attr_name}=", instance)
+            end
+
             def receive(text)
               if not cursor_saved?
                 save_cursor
