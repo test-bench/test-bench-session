@@ -17,6 +17,37 @@ module TestBench
                 build(0, 0, 0, 0)
               end
 
+              def write(text)
+                bytes_written = 0
+
+                escape_sequence_pattern = self.class.escape_sequence_pattern
+
+                until text.empty?
+                  write_text, escape_sequence, text = text.partition(escape_sequence_pattern)
+
+                  bytes_written += write!(write_text)
+                  bytes_written += escape_sequence.bytesize
+                end
+
+                bytes_written
+              end
+
+              def write!(text)
+                newline = text.end_with?("\n")
+
+                if newline
+                  text = text[0...-1]
+                end
+
+                bytes_written = write_text(text)
+
+                if newline
+                  bytes_written += write_newline
+                end
+
+                bytes_written
+              end
+
               def write_text(text)
                 if text.start_with?("\e")
                   return text.bytesize
@@ -101,6 +132,14 @@ module TestBench
 
               def bottom_row?
                 row == height - 1
+              end
+
+              def self.escape_sequence_pattern
+                initiator = %r{\e\[}
+                terminator = %r{[[:alpha:]]}
+                sequence = %r{[[:digit:]]+(?:;[[:digit:]]+)*}
+
+                %r{#{initiator}#{sequence}?#{terminator}}
               end
             end
           end
