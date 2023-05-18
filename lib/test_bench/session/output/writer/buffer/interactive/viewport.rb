@@ -17,6 +17,45 @@ module TestBench
                 build(0, 0, 0, 0)
               end
 
+              def write_text(text)
+                if text.start_with?("\e")
+                  return text.bytesize
+                end
+
+                written_text = text[0...capacity]
+
+                bytes_written = written_text.bytesize
+
+                row = self.row
+                column = self.column
+
+                text_rows, text_columns = bytes_written.divmod(width)
+
+                row += text_rows
+
+                columns_remaining = width - column
+                if columns_remaining > text_columns
+                  column += text_columns
+                else
+                  row += 1
+                  column = text_columns - columns_remaining
+                end
+
+                if row >= height
+                  final_row = height - 1
+
+                  scroll_rows = row - final_row
+                  self.rows_scrolled += scroll_rows
+
+                  row = final_row
+                end
+
+                self.row = row
+                self.column = column
+
+                bytes_written
+              end
+
               def write_newline
                 if bottom_row?
                   if scroll_rows_remaining.zero?
