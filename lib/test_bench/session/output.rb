@@ -42,7 +42,7 @@ module TestBench
 
       def receive(event_data)
         case event_data.type
-        when ContextStarted.event_type
+        when ContextStarted.event_type, TestStarted.event_type
           branch
         end
 
@@ -61,7 +61,7 @@ module TestBench
         end
 
         case event_data.type
-        when ContextFinished.event_type
+        when ContextFinished.event_type, TestFinished.event_type
           _title, result = event_data.data
           merge(result)
         end
@@ -106,6 +106,59 @@ module TestBench
 
       handle ContextSkipped do |context_skipped|
         title = context_skipped.title
+
+        if not writer.styling?
+          title = "#{title} (skipped)"
+        end
+
+        writer.
+          indent.
+          style(:yellow).
+          puts(title)
+      end
+
+      handle TestStarted do |test_started|
+        title = test_started.title
+
+        if title.nil?
+          if passing?
+            return
+          else
+            title = 'Test'
+          end
+        end
+
+        writer.indent
+
+        if passing?
+          writer.style(:green)
+        elsif failing?
+          if not writer.styling?
+            title = "#{title} (failed)"
+          end
+
+          writer.style(:bold, :red)
+        elsif pending?
+          writer.style(:faint)
+        end
+
+        writer.puts(title)
+
+        writer.indent!
+      end
+
+      handle TestFinished do |test_finished|
+        title = test_finished.title
+
+        if passing? && title.nil?
+          return
+        end
+
+        writer.deindent!
+      end
+
+      handle TestSkipped do |test_skipped|
+        title = test_skipped.title
 
         if not writer.styling?
           title = "#{title} (skipped)"
