@@ -1,10 +1,36 @@
 module TestBench
   class Session
     class Output
+      def pending_writer
+        @writer ||= Writer::Substitute.build
+      end
+      attr_writer :pending_writer
+
+      def passing_writer
+        @passing_writer ||= Writer::Substitute.build
+      end
+      attr_writer :passing_writer
+
+      def failing_writer
+        @failing_writer ||= Writer::Substitute.build
+      end
+      attr_writer :failing_writer
+
       def mode
         @mode ||= Mode.initial
       end
       attr_writer :mode
+
+      def current_writer
+        if initial? || pending?
+          pending_writer
+        elsif passing?
+          passing_writer
+        elsif failing?
+          failing_writer
+        end
+      end
+      alias :writer :current_writer
 
       def initial?
         mode == Mode.initial
