@@ -36,6 +36,15 @@ module TestBench
           writer
         end
 
+        def branch
+          alternate = self.class.follow(self)
+          primary = self.class.follow(self)
+
+          primary.peer = alternate
+
+          return primary, alternate
+        end
+
         def indent
           indentation = '  ' * indentation_depth
 
