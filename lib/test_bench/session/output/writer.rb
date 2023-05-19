@@ -22,6 +22,11 @@ module TestBench
           buffer.flush(device, alternate_device)
         end
 
+        def write!(data)
+          device.write(data)
+          alternate_device.write(data)
+        end
+
         def increase_indentation
           self.indentation_depth += 1
         end
