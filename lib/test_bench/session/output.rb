@@ -40,6 +40,14 @@ module TestBench
       alias :detail :detail_policy
       attr_writer :detail_policy
 
+      def configure(detail: nil, **arguments)
+        if not detail.nil?
+          self.detail_policy = detail
+        end
+
+        Writer.configure(self, **arguments, attr_name: :pending_writer)
+      end
+
       def receive(event_data)
         case event_data.type
         when ContextStarted.event_type, TestStarted.event_type
