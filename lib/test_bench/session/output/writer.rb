@@ -14,6 +14,14 @@ module TestBench
         end
         attr_writer :indentation_depth
 
+        def configure
+          device = self.device
+
+          self.alternate_device = TestBench::Output::Device::Null.build
+
+          Buffer.configure(self, device:)
+        end
+
         def self.follow(previous_writer)
           device = previous_writer
 
