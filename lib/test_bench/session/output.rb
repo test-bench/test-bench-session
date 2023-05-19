@@ -170,6 +170,19 @@ module TestBench
           puts(title)
       end
 
+      handle Failed do |failed|
+        message = failed.message
+
+        if failing?
+          self.failures += 1
+        end
+
+        writer
+          .indent
+          .style(:red)
+          .puts(message)
+      end
+
       handle Detailed do |detailed|
         if not detail?
           return
