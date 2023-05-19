@@ -19,6 +19,11 @@ module TestBench
       end
       attr_writer :failing_writer
 
+      def failures
+        @failures ||= 0
+      end
+      attr_writer :failures
+
       def mode
         @mode ||= Mode.initial
       end
@@ -34,6 +39,83 @@ module TestBench
       end
       alias :detail :detail_policy
       attr_writer :detail_policy
+
+      def receive(event_data)
+        case event_data.type
+        when ContextStarted.event_type
+          branch
+        end
+
+        if initial?
+          handle(event_data)
+
+        else
+          self.mode = Mode.failing
+          handle(event_data)
+
+          self.mode = Mode.passing
+          handle(event_data)
+
+          self.mode = Mode.pending
+          handle(event_data)
+        end
+
+        case event_data.type
+        when ContextFinished.event_type
+          _title, result = event_data.data
+          merge(result)
+        end
+      end
+
+      handle ContextStarted do |context_started|
+        title = context_started.title
+
+        if not title.nil?
+          writer.
+            indent.
+            style(:green).
+            puts(title)
+
+          writer.indent!
+
+          if branch_count == 1
+            self.failures = 0
+          end
+        end
+      end
+
+      handle ContextFinished do |context_finished|
+        title = context_finished.title
+
+        if not title.nil?
+          writer.deindent!
+
+          if branch_count == 1
+            writer.puts
+
+            if failing? && failures > 0
+              writer.
+                style(:bold, :red).
+                puts("Failure#{'s' if not failures == 1}: #{failures}")
+
+              writer.puts
+            end
+          end
+        end
+      end
+
+      handle ContextSkipped do |context_skipped|
+        title = context_skipped.title
+
+        if not writer.styling?
+          title = "#{title} (skipped)"
+        end
+
+        writer.
+          indent.
+          style(:yellow).
+          puts(title)
+      end
 
       handle Detailed do |detailed|
         if not detail?
