@@ -2,6 +2,8 @@ module TestBench
   class Session
     class Output
       class Writer < TestBench::Output::Writer
+        attr_accessor :peer
+
         def alternate_device
           @alternate_device ||= TestBench::Output::Device::Substitute.build
         end
@@ -36,6 +38,18 @@ module TestBench
           self.indentation_depth -= 1
         end
         alias :deindent! :decrease_indentation
+
+        def follows?(other_writer)
+          if sequence < other_writer.sequence
+            false
+          elsif device == other_writer
+            true
+          elsif device == other_writer.peer
+            true
+          else
+            false
+          end
+        end
       end
     end
   end
