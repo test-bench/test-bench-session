@@ -4,6 +4,7 @@ module TestBench
       module Output
         Device = TestBench::Output::Controls::Device
         Data = TestBench::Output::Controls::Data
+        Styling = TestBench::Output::Controls::Styling
       end
     end
   end
