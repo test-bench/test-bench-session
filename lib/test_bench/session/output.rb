@@ -53,6 +53,27 @@ module TestBench
         self.passing_writer, self.failing_writer = parent_writer.branch
       end
 
+      def merge(result)
+        self.branch_count -= 1
+
+        if not branched?
+          pending_writer.sync = true
+
+          self.mode = Mode.initial
+        end
+
+        if result
+          writer = passing_writer
+        else
+          writer = failing_writer
+        end
+
+        writer.flush
+
+        self.passing_writer = writer.device
+        self.failing_writer = writer.alternate_device
+      end
+
       def branched?
         branch_count > 0
       end
