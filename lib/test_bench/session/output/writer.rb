@@ -2,6 +2,11 @@ module TestBench
   class Session
     class Output
       class Writer < TestBench::Output::Writer
+        def alternate_device
+          @alternate_device ||= TestBench::Output::Device::Substitute.build
+        end
+        attr_writer :alternate_device
+
         def indentation_depth
           @indentation_depth ||= 0
         end
@@ -11,6 +16,10 @@ module TestBench
           indentation = '  ' * indentation_depth
 
           print(indentation)
+        end
+
+        def flush
+          buffer.flush(device, alternate_device)
         end
 
         def increase_indentation
