@@ -14,6 +14,28 @@ module TestBench
         end
         attr_writer :indentation_depth
 
+        def self.follow(previous_writer)
+          device = previous_writer
+
+          alternate_device = previous_writer.peer
+          alternate_device ||= TestBench::Output::Device::Null.build
+
+          previous_digest = previous_writer.digest
+          digest = previous_digest.clone
+
+          writer = new
+          writer.sync = false
+          writer.device = device
+          writer.alternate_device = alternate_device
+          writer.styling_policy = previous_writer.styling_policy
+          writer.digest = digest
+          writer.sequence = previous_writer.sequence
+          writer.column_sequence = previous_writer.column_sequence
+          writer.indentation_depth = previous_writer.indentation_depth
+          writer.digest = previous_writer.digest.clone
+          writer
+        end
+
         def indent
           indentation = '  ' * indentation_depth
 
