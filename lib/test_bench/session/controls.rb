@@ -31,3 +31,6 @@ require 'test_bench/session/controls/events'
 require 'test_bench/session/controls/substitute/path'
 
 require 'test_bench/session/controls/event'
+
+require 'test_bench/session/controls/output'
+require 'test_bench/session/controls/output/detail'
