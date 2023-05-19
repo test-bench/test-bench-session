@@ -2,6 +2,7 @@ module TestBench
   class Session
     class Output
       include TestBench::Output
+      include Events
 
       def pending_writer
         @pending_writer ||= Writer::Substitute.build
@@ -33,6 +34,56 @@ module TestBench
       end
       alias :detail :detail_policy
       attr_writer :detail_policy
+
+      handle Detailed do |detailed|
+        if not detail?
+          return
+        end
+
+        text = detailed.text
+        quote = detailed.quote
+        heading = detailed.heading
+
+        comment(text, quote, heading)
+      end
+
+      def comment(text, quote, heading)
+        if not heading.nil?
+          writer.
+            indent.
+            style(:bold, :underline).
+            puts(heading)
+
+          if not writer.styling?
+            writer.
+              indent.
+              puts('- - -')
+          end
+        end
+
+        if text.empty?
+          writer.
+            indent.
+            style(:faint, :italic).
+            puts('(empty)')
+          return
+        end
+
+        if not quote
+          writer.
+            indent.
+            puts(text)
+        else
+          text.each_line(chomp: true) do |line|
+            writer.
+              indent.
+              style(:faint).
+              print('> ').
+              style(:reset_intensity).
+              puts(line)
+          end
+        end
+      end
 
       def current_writer
         if initial? || pending?
