@@ -21,6 +21,11 @@ module TestBench
       end
       attr_writer :mode
 
+      def branch_count
+        @branch_count ||= 0
+      end
+      attr_writer :branch_count
+
       def current_writer
         if initial? || pending?
           pending_writer
@@ -31,6 +36,10 @@ module TestBench
         end
       end
       alias :writer :current_writer
+
+      def branched?
+        branch_count > 0
+      end
 
       def initial?
         mode == Mode.initial
