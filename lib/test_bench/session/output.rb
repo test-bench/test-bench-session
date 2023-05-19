@@ -47,6 +47,14 @@ module TestBench
         comment(text, quote, heading)
       end
 
+      handle Commented do |commented|
+        text = commented.text
+        quote = commented.quote
+        heading = commented.heading
+
+        comment(text, quote, heading)
+      end
+
       def comment(text, quote, heading)
         if not heading.nil?
           writer.
