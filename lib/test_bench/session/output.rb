@@ -37,6 +37,22 @@ module TestBench
       end
       alias :writer :current_writer
 
+      def branch
+        if branch_count.zero?
+          self.mode = Mode.pending
+
+          pending_writer.sync = false
+
+          parent_writer = pending_writer
+        else
+          parent_writer = passing_writer
+        end
+
+        self.branch_count += 1
+
+        self.passing_writer, self.failing_writer = parent_writer.branch
+      end
+
       def branched?
         branch_count > 0
       end
