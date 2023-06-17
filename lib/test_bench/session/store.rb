@@ -5,6 +5,16 @@ module TestBench
 
       attr_accessor :put_session
 
+      def self.instance
+        @instance ||= new
+      end
+
+      def self.put(...) = instance.put(...)
+      def self.put?(...) = instance.put?(...)
+      def self.reset(...) = instance.reset(...)
+      def self.get(...) = instance.get(...)
+      def self.fetch(...) = instance.fetch(...)
+
       def put(session)
         if not put_session.nil?
           raise PutError, "Already put a session"
