@@ -28,6 +28,12 @@ module TestBench
       def get
         put_session
       end
+
+      def new_session
+        Session.build do |telemetry|
+          Output.register_telemetry(telemetry)
+        end
+      end
     end
   end
 end
