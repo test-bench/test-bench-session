@@ -24,6 +24,10 @@ module TestBench
       def reset(session=nil)
         self.put_session = session
       end
+
+      def get
+        put_session
+      end
     end
   end
 end
