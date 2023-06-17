@@ -35,6 +35,14 @@ module TestBench
       instance
     end
 
+    def self.configure(receiver, session: nil, attr_name: nil, &block)
+      session ||= Store.fetch
+      attr_name ||= :session
+
+      instance = session
+      receiver.public_send(:"#{attr_name}=", instance)
+    end
+
     def inspect
       text = self.to_s
 
