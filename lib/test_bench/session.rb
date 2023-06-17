@@ -18,3 +18,5 @@ require 'test_bench/session/output/writer/buffer/interactive'
 require 'test_bench/session/output/writer/buffer'
 require 'test_bench/session/output'
 require 'test_bench/session/output/get'
+
+require 'test_bench/session/store'
