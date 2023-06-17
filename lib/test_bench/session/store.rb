@@ -12,6 +12,14 @@ module TestBench
 
         self.put_session = session
       end
+
+      def put?(session=nil)
+        if not session.nil?
+          put_session == session
+        else
+          !put_session.nil?
+        end
+      end
     end
   end
 end
