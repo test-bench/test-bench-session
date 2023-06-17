@@ -23,6 +23,18 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def self.build(&block)
+      instance = new
+
+      Telemetry.configure(instance)
+
+      if not block.nil?
+        block.(instance.telemetry)
+      end
+
+      instance
+    end
+
     def passed?
       if failed?
         false
