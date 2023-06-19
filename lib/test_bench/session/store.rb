@@ -5,6 +5,12 @@ module TestBench
 
       attr_accessor :put_session
 
+      def self.configure(receiver, attr_name: nil)
+        attr_name ||= :session_store
+
+        receiver.public_send(:"#{attr_name}=", instance)
+      end
+
       def self.instance
         @instance ||= new
       end
