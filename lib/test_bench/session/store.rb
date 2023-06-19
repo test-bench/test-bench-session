@@ -20,6 +20,10 @@ module TestBench
           !put_session.nil?
         end
       end
+
+      def reset(session=nil)
+        self.put_session = session
+      end
     end
   end
 end
