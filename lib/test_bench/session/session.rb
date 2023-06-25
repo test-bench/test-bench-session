@@ -23,6 +23,10 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def passed?
+      asserted? && !failed? && !skipped?
+    end
+
     def fixture(name, &block)
       original_failure_sequence = failure_sequence
 
