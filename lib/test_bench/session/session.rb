@@ -23,6 +23,20 @@ module TestBench
     end
     attr_writer :skip_sequence
 
+    def passed?
+      if failed?
+        false
+      elsif require_passing_test?
+        asserted? && !skipped?
+      else
+        true
+      end
+    end
+
+    def require_passing_test?
+      Defaults.require_passing_tests
+    end
+
     def fixture(name, &block)
       original_failure_sequence = failure_sequence
 
@@ -189,6 +203,12 @@ module TestBench
 
     def self.no_assertion_message
       "Test didn't perform an assertion"
+    end
+
+    module Defaults
+      def self.require_passing_tests
+        ENV.fetch('TEST_BENCH_REQUIRE_PASSING_TEST', 'on') == 'on'
+      end
     end
   end
 end
