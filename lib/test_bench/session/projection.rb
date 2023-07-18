@@ -13,6 +13,10 @@ module TestBench
       apply TestSkipped do
         session.record_skip
       end
+
+      apply ContextSkipped do
+        session.record_skip
+      end
     end
   end
 end
