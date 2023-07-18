@@ -17,6 +17,12 @@ module TestBench
       apply ContextSkipped do
         session.record_skip
       end
+
+      apply TestFinished do |test_finished|
+        if test_finished.result
+          session.record_assertion
+        end
+      end
     end
   end
 end
