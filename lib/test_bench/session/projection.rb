@@ -9,6 +9,10 @@ module TestBench
       apply Failed do
         session.record_failure
       end
+
+      apply TestSkipped do
+        session.record_skip
+      end
     end
   end
 end
