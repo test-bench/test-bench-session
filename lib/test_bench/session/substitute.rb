@@ -22,6 +22,27 @@ module TestBench
           instance
         end
 
+        def one_passing_test_finished_event?(*, **)
+          one_test_finished_event?(*, result: true, **)
+        end
+        alias :one_test_passed? :one_passing_test_finished_event?
+
+        def one_passing_test_finished_event(*, **)
+          one_test_finished_event(*, result: true, **)
+        end
+        alias :one_passing_test :one_passing_test_finished_event
+
+        def any_passing_test_finished_event?(*, **)
+          any_test_finished_event?(*, result: true, **)
+        end
+        alias :passing_test_finished_event? :any_passing_test_finished_event?
+        alias :test_passed? :passing_test_finished_event?
+
+        def passing_test_finished_events(*, **)
+          test_finished_events(*, result: true, **)
+        end
+        alias :passing_tests :passing_test_finished_events
+
         Events.each_type do |event_type|
           event_name = TestBench::Telemetry::Event::EventName.get(event_type)
 
