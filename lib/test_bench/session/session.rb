@@ -35,6 +35,29 @@ module TestBench
       instance
     end
 
+    def inspect
+      text = self.to_s
+
+      instance_variables = self.instance_variables - [:@telemetry]
+
+      instance_variables.each_with_index do |name, index|
+        ivar_text = String.new
+
+        if index > 0
+          ivar_text << ','
+        end
+
+        value = instance_variable_get(name)
+        value = value.inspect
+
+        ivar_text << " #{name}=#{value}"
+
+        text.insert(-2, ivar_text)
+      end
+
+      text
+    end
+
     def passed?
       asserted? && !failed? && !skipped?
     end
