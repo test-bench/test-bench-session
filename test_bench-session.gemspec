@@ -1,11 +1,14 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |spec|
   spec.name = 'test_bench-session'
-  spec.version = '0.0.0.0'
+  spec.version = '3.0.0.0.pre.1'
 
-  spec.summary = "## Summary goes here"
+  spec.summary = "Core test automation state machine for TestBench"
   spec.description = <<~TEXT.each_line(chomp: true).map(&:strip).join(' ')
-  ## Description goes here
+  TestBench::Session implements the core testing mechanisms of TestBench: tests, contexts, comments, assertions, and test file
+  execution. Sessions also maintain the pass/fail status of the test run. A diagnostic substitute session is also included that
+  records session telemetry so that test abstractions built using TestBench (called "Fixtures") can observed and tested in
+  isolation.
   TEXT
 
   spec.homepage = 'http://test-bench.software'
@@ -27,6 +30,8 @@ Gem::Specification.new do |spec|
   spec.files = Dir.glob('lib/**/*')
 
   spec.platform = Gem::Platform::RUBY
+
+  spec.add_runtime_dependency 'test_bench-telemetry'
 
   spec.add_development_dependency 'test_bench_bootstrap'
 end
