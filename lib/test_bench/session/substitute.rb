@@ -130,6 +130,9 @@ module TestBench
           RUBY
         end
 
+        alias :test? :any_test_started_event?
+        alias :one_test? :one_test_started_event?
+
         alias :comment? :any_commented_event?
         alias :one_comment? :one_commented_event?
         alias :detail? :any_detailed_event?
