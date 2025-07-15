@@ -130,6 +130,11 @@ module TestBench
           RUBY
         end
 
+        alias :comment? :any_commented_event?
+        alias :one_comment? :one_commented_event?
+        alias :detail? :any_detailed_event?
+        alias :one_detail? :one_detailed_event?
+
         def one_event?(...)
           sink.one_event?(...)
         end
