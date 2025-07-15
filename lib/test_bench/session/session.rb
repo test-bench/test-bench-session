@@ -4,6 +4,9 @@ module TestBench
 
     ExecutionBreak = Object.new
 
+    ## Remove when no longer in use - Nathan, Tue Jul 15 2025
+    Abort = ExecutionBreak
+
     def telemetry
       @telemetry ||= Telemetry::Substitute.build
     end
