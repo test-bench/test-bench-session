@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |spec|
   spec.name = 'test_bench-session'
-  spec.version = '3.0.0.0.pre.1'
+  spec.version = '3.0.0.0.pre.2'
 
   spec.summary = "Core test automation state machine for TestBench"
   spec.description = <<~TEXT.each_line(chomp: true).map(&:strip).join(' ')
