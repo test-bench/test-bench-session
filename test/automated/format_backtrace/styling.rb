@@ -2,14 +2,17 @@ require_relative '../automated_init'
 
 context "Format Backtrace" do
   context "Styling" do
-    exception = Controls::Exception::Example
+    exception = Controls::Exception::AbsolutePaths::Example
     detail "Raw exception:", exception.full_message
 
     omit_pattern = Controls::Backtrace.pattern
     comment "Omit pattern: #{omit_pattern.inspect}"
 
     format_backtrace = Session::Exception::FormatBacktrace.new
+
     format_backtrace.omit_patterns << omit_pattern
+
+    format_backtrace.apex_directory = Controls::Backtrace::AbsolutePaths::Local.apex_directory
 
     format_backtrace.styling = true
 
