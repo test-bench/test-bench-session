@@ -35,6 +35,12 @@ module TestBench
         end
 
         def call(exception)
+          backtrace_locations = exception.backtrace_locations
+
+          if backtrace_locations.nil?
+            return
+          end
+
           if styling?
             omitted_text = "\e[2;3m*omitted*\e[23;22m"
           else
