@@ -37,12 +37,12 @@ module TestBench
     end
     attr_writer :assertion_sequence
 
-    def self.build
+    def self.build(apex_directory: nil)
       instance = new
 
       Telemetry.configure(instance)
       Exception::FormatBacktrace.configure(instance)
-      Isolate.configure(instance)
+      Isolate.configure(instance, apex_directory:)
 
       instance
     end
