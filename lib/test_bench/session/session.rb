@@ -66,6 +66,10 @@ module TestBench
       instance.register_telemetry_sink(telemetry_sink)
     end
 
+    def close
+      isolate.stop
+    end
+
     def assert(value, failure_message)
       self.assertion_sequence += 1
 
