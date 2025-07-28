@@ -1,14 +1,14 @@
 require_relative '../../automated_init'
 
 context "Session" do
-  context "Context" do
+  context "Evaluate" do
     context "Block Returns A Value" do
       session = Session.new
 
       control_value = 'some-value'
 
       result = lambda {
-        session.context(Controls::Title::Context.example) do
+        session.evaluate(Controls::Event::Pending.example) do
           return control_value
         end
       }.()

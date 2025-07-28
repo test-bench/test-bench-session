@@ -206,6 +206,8 @@ module TestBench
     def evaluate(pending_event, &block)
       previous_status = status.dup
 
+      result = nil
+
       catch(ExecutionBreak) do
         block.(self)
 
